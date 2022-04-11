@@ -20,7 +20,6 @@ app.listen(PORT, () => {});
 
 app.get("/", () => {
   console.log("works");
-  res.send({ res: "test" });
 });
 
 app.post("/sendemail", (req, res) => {
