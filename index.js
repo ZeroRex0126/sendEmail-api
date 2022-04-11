@@ -1,4 +1,5 @@
 const express = require("express");
+const res = require("express/lib/response");
 const app = express();
 const nodemailer = require("nodemailer");
 require("dotenv").config();
@@ -11,7 +12,7 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-const PORT = 8080;
+let PORT = process.env.PORT || 8080;
 
 app.use(express.json());
 
@@ -19,6 +20,7 @@ app.listen(PORT, () => {});
 
 app.get("/", () => {
   console.log("works");
+  res.send({ res: "test" });
 });
 
 app.post("/sendemail", (req, res) => {
