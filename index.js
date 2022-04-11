@@ -17,6 +17,10 @@ app.use(express.json());
 
 app.listen(PORT, () => {});
 
+app.get("/", () => {
+  console.log("works");
+});
+
 app.post("/sendemail", (req, res) => {
   const { body } = req;
   if (body.token == process.env.EMAILTOKEN) {
@@ -26,7 +30,7 @@ app.post("/sendemail", (req, res) => {
       text: body.body,
     };
 
-    transporter.sendMail(options, function (err, info) {
+    transporter.sendMail(options, (err, info) => {
       let state = "";
       if (err) {
         console.log(err);
