@@ -10,8 +10,7 @@ const transporter = nodemailer.createTransport({
   service: process.env.PROVIDER,
   auth: {
     user: process.env.EMAIL,
-    pass: `#${process.env.PASS}`,
-    //remember to remove # for heroku
+    pass: `${process.env.PASS}`,
   },
 });
 
