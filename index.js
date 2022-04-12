@@ -2,6 +2,8 @@ const express = require("express");
 const res = require("express/lib/response");
 const app = express();
 const nodemailer = require("nodemailer");
+const hbs = require("nodemailer-express-handlebars");
+const path = require("path");
 require("dotenv").config();
 
 const transporter = nodemailer.createTransport({
@@ -11,6 +13,18 @@ const transporter = nodemailer.createTransport({
     pass: `${process.env.PASS}`,
   },
 });
+
+const handlebarOptions = {
+  viewEngine: {
+    extName: ".handlebars",
+    partialsDir: path.resolve("./views"),
+    defaultLayout: false,
+  },
+  viewPath: path.resolve("./views"),
+  extName: ".handlebars",
+};
+
+transporter.use("compile", hbs(handlebarOptions));
 
 let PORT = process.env.PORT || 8080;
 
@@ -28,7 +42,8 @@ app.post("/sendemail", (req, res) => {
     const options = {
       to: body.toemail,
       subject: body.subject,
-      text: body.body,
+      template: "email",
+      context: body.context,
     };
 
     transporter.sendMail(options, (err, info) => {
