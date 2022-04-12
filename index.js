@@ -10,7 +10,8 @@ const transporter = nodemailer.createTransport({
   service: process.env.PROVIDER,
   auth: {
     user: process.env.EMAIL,
-    pass: `${process.env.PASS}`,
+    pass: `#${process.env.PASS}`,
+    //remember to remove # for heroku
   },
 });
 
@@ -31,10 +32,6 @@ let PORT = process.env.PORT || 8080;
 app.use(express.json());
 
 app.listen(PORT, () => {});
-
-app.get("/", () => {
-  console.log("works");
-});
 
 app.post("/sendemail", (req, res) => {
   const { body } = req;
