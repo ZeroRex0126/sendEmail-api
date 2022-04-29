@@ -11,6 +11,7 @@ const transporter = nodemailer.createTransport({
   auth: {
     user: process.env.EMAIL,
     pass: `${process.env.PASS}`,
+    //remember to remove # for heroku
   },
 });
 
@@ -36,6 +37,7 @@ app.post("/sendemail", (req, res) => {
   const { body } = req;
   if (body.token == process.env.EMAILTOKEN) {
     const options = {
+      from: process.env.EMAIL,
       to: body.toemail,
       subject: body.subject,
       template: "email",
