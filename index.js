@@ -36,6 +36,7 @@ app.listen(PORT, () => {});
 app.post("/sendemail", (req, res) => {
   const { body } = req;
   if (body.token == process.env.EMAILTOKEN) {
+    res.set("Access-Control-Allow-Origin", "*");
     const options = {
       from: process.env.EMAIL,
       to: body.toemail,
@@ -53,6 +54,7 @@ app.post("/sendemail", (req, res) => {
         console.log(info.response);
         state = "email sent";
       }
+
       res.send(state);
     });
   } else {
