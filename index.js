@@ -29,14 +29,19 @@ transporter.use("compile", hbs(handlebarOptions));
 
 let PORT = process.env.PORT || 8080;
 
+app.get("/cors", (req, res) => {
+  res.set("Access-Control-Allow-Origin", "*");
+  res.send({ msg: "This has CORS enabled 🎈" });
+});
+
 app.use(express.json());
 
 app.listen(PORT, () => {});
 
 app.post("/sendemail", (req, res) => {
+  res.set("Access-Control-Allow-Origin", "*");
   const { body } = req;
   if (body.token == process.env.EMAILTOKEN) {
-    res.set("Access-Control-Allow-Origin", "*");
     const options = {
       from: process.env.EMAIL,
       to: body.toemail,
