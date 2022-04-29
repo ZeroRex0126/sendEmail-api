@@ -31,7 +31,7 @@ let PORT = process.env.PORT || 8080;
 
 app.get("/sendemail", (req, res) => {
   res.set("Access-Control-Allow-Origin", "*");
-  res.send({ msg: "This has CORS enabled 🎈", req: req });
+  res.send({ msg: "This has CORS enabled 🎈" });
 });
 
 app.use(express.json());
