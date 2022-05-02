@@ -1,6 +1,9 @@
 const express = require("express");
 const res = require("express/lib/response");
+var cors = require("cors");
+const { createProxyMiddleware } = require("http-proxy-middleware");
 const app = express();
+app.use(cors());
 const nodemailer = require("nodemailer");
 const hbs = require("nodemailer-express-handlebars");
 const path = require("path");
@@ -42,27 +45,41 @@ app.post("/sendemail", (req, res) => {
   res.set("Access-Control-Allow-Origin", "*");
   const { body } = req;
   if (body.token == process.env.EMAILTOKEN) {
-    const options = {
-      from: process.env.EMAIL,
-      to: body.toemail,
-      subject: body.subject,
-      template: "email",
-      context: body.context,
-    };
+    if (body.type === "CONTACT") {
+      options = {
+        from: process.env.EMAIL,
+        to: body.toemail,
+        subject: body.subject,
+        template: "contact",
+        context: body.context,
+      };
+    }
 
-    transporter.sendMail(options, (err, info) => {
-      let state = "";
-      if (err) {
-        console.log(err);
-        state = err;
-      } else {
-        console.log(info.response);
-        state = "email sent";
-      }
+    console.log(options);
 
-      res.send(state);
-    });
+    if (options) {
+      transporter.sendMail(options, (err, info) => {
+        let state = "";
+        if (err) {
+          console.log(err);
+          state = err;
+        } else {
+          console.log(info.response);
+          state = "email sent";
+        }
+
+        res.statusMessage = "SENT";
+        res.statusCode = 200;
+        res.send(state);
+      });
+    } else {
+      res.statusMessage = "ERROR";
+      res.statusCode = 500;
+      res.send("Error sending email");
+    }
   } else {
+    res.statusMessage = "TokenError";
+    res.statusCode = 500;
     res.send("token no identified");
   }
 });

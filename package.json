@@ -19,8 +19,10 @@
   },
   "homepage": "https://github.com/ZeroRex0126/sendEmail-api#readme",
   "dependencies": {
+    "cors": "^2.8.5",
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
+    "http-proxy-middleware": "^2.0.6",
     "nodemailer": "^6.7.3",
     "nodemailer-express-handlebars": "^5.0.0"
   }
