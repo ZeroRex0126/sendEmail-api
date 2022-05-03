@@ -53,9 +53,15 @@ app.post("/sendemail", (req, res) => {
         template: "contact",
         context: body.context,
       };
+    } else if (body.type === "ORDER") {
+      options = {
+        from: process.env.EMAIL,
+        to: body.toemail,
+        subject: body.subject,
+        template: "order",
+        context: body.context,
+      };
     }
-
-    console.log(options);
 
     if (options) {
       transporter.sendMail(options, (err, info) => {
