@@ -56,7 +56,7 @@ app.post("/sendemail", (req, res) => {
     } else if (body.type === "ORDER") {
       options = {
         from: process.env.EMAIL,
-        to: body.toemail,
+        to: [body.toemail, body.context.customerDetails.email],
         subject: body.subject,
         template: "order",
         context: body.context,
